@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>University Book Pickup & Ordering</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header>
+        <h1>Book Pickup & Ordering</h1>
+        <div id="user-info"></div>
+      </header>
+
+      <main>
+        <!-- Auth / Registration -->
+        <section id="auth-section" class="card">
+          <h2 id="auth-title">Sign in</h2>
+          <form id="auth-form">
+            <label
+              >Email
+              <input id="email" type="email" required />
+            </label>
+            <label
+              >Password
+              <input id="password" type="password" required />
+            </label>
+            <div class="row">
+              <button type="submit" id="auth-submit">Sign in</button>
+              <button type="button" id="toggle-auth">Create account</button>
+            </div>
+          </form>
+          <p class="muted">
+            This demo stores accounts locally (localStorage) for demonstration
+            only.
+          </p>
+        </section>
+
+        <!-- Profile selection -->
+        <section id="profile-section" class="card hidden">
+          <h2>Confirm Department & Level</h2>
+          <form id="profile-form">
+            <label
+              >Department
+              <select id="department" required></select>
+            </label>
+            <label
+              >Level
+              <select id="level" required>
+                <option value="100">100 Level</option>
+                <option value="200">200 Level</option>
+                <option value="300">300 Level</option>
+                <option value="400">400 Level</option>
+              </select>
+            </label>
+            <div class="row">
+              <button type="submit">Continue</button>
+              <button type="button" id="logout">Logout</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Catalog -->
+        <section id="catalog-section" class="hidden">
+          <div class="catalog-header">
+            <div>
+              <h2 id="catalog-title">Recommended Books</h2>
+              <p id="catalog-sub"></p>
+            </div>
+            <div class="controls">
+              <input
+                id="search"
+                type="search"
+                placeholder="Search title, author or course code"
+              />
+              <button id="view-cart">
+                Cart (<span id="cart-count">0</span>)
+              </button>
+            </div>
+          </div>
+          <div id="book-list" class="book-grid"></div>
+        </section>
+
+        <!-- Checkout / Pickup -->
+        <section id="checkout-section" class="card hidden">
+          <h2>Checkout</h2>
+          <div id="checkout-summary"></div>
+          <form id="pickup-form">
+            <label
+              >Pickup Location
+              <select id="pickup-location">
+                <option>Main Library Desk</option>
+                <option>Bookstore Front Desk</option>
+                <option>Department Office</option>
+              </select>
+            </label>
+            <label
+              >Pickup Date
+              <input id="pickup-date" type="date" required />
+            </label>
+            <label
+              >Pickup Time
+              <input id="pickup-time" type="time" required />
+            </label>
+            <div class="row">
+              <button type="submit">Confirm Order</button>
+              <button type="button" id="cancel-checkout">Cancel</button>
+            </div>
+          </form>
+        </section>
+
+        <!-- Orders list / receipts -->
+        <section id="orders-section" class="card hidden">
+          <h2>Your Orders</h2>
+          <div id="orders-list"></div>
+          <div class="row">
+            <button id="back-to-catalog">Back to Catalog</button>
+          </div>
+        </section>
+      </main>
+
+      <!-- Cart modal -->
+      <div id="cart-modal" class="modal hidden">
+        <div class="modal-content">
+          <h3>Your Cart</h3>
+          <div id="cart-items"></div>
+          <div class="cart-total">
+            Total: ₦<span id="cart-total">0.00</span>
+          </div>
+          <div class="row">
+            <button id="checkout">Checkout</button>
+            <button id="close-cart">Close</button>
+          </div>
+        </div>
+      </div>
+
+      <footer>
+        <small>Demo University Book Pickup System — client-side only</small>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
