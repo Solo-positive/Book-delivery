@@ -174,6 +174,7 @@ const catalogSection = $("#catalog-section");
 const checkoutSection = $("#checkout-section");
 const ordersSection = $("#orders-section");
 const cartModal = $("#cart-modal");
+const detailsSection = $("#details-section");
 
 const authForm = $("#auth-form");
 const authTitle = $("#auth-title");
@@ -205,6 +206,9 @@ const checkoutSummary = $("#checkout-summary");
 const ordersList = $("#orders-list");
 const backToCatalogBtn = $("#back-to-catalog");
 const cancelCheckoutBtn = $("#cancel-checkout");
+const detailsContent = $("#details-content");
+const detailsBackBtn = $("#details-back");
+const detailsAddBtn = $("#details-add");
 
 // Local storage keys
 const LS_USERS = "bpos_users";
@@ -215,6 +219,7 @@ const LS_ORDERS = "bpos_orders";
 let isRegister = false;
 let session = loadSession();
 let cart = []; // {bookId, qty}
+let currentDetailsId = null;
 
 function saveUsers(users) {
   localStorage.setItem(LS_USERS, JSON.stringify(users));
@@ -346,6 +351,13 @@ function attachEvents() {
   cancelCheckoutBtn.addEventListener("click", () => {
     showCatalog();
   });
+
+  // details navigation
+  detailsBackBtn.addEventListener("click", () => showCatalog());
+  detailsAddBtn.addEventListener("click", () => {
+    if (currentDetailsId) addToCart(currentDetailsId);
+    showCatalog();
+  });
 }
 
 // Auth
@@ -463,9 +475,32 @@ function renderBookList() {
         <button data-id="${b.id}" class="details secondary">Details</button>
       </div>`;
     const addBtn = el.querySelector("button.add");
+    const detailsBtn = el.querySelector("button.details");
     addBtn.addEventListener("click", () => addToCart(b.id));
+    detailsBtn.addEventListener("click", () => showDetails(b.id));
     bookList.appendChild(el);
   });
+}
+
+function showDetails(id) {
+  const b = books.find((x) => x.id === id);
+  if (!b) return;
+  currentDetailsId = id;
+  detailsContent.innerHTML = `
+    <h3>${b.title}</h3>
+    <div class="meta">${b.author} · ${b.course}</div>
+    <div class="meta">Department: ${b.dept} · Level: ${b.level}</div>
+    <div class="meta">Stock: ${b.stock}</div>
+    <div class="price">₦${b.price.toFixed(2)}</div>
+    <p class="muted">Course code: ${b.course}</p>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. This is a demo description.</p>
+  `;
+  authSection.classList.add("hidden");
+  profileSection.classList.add("hidden");
+  catalogSection.classList.add("hidden");
+  checkoutSection.classList.add("hidden");
+  ordersSection.classList.add("hidden");
+  detailsSection.classList.remove("hidden");
 }
 
 // Cart
