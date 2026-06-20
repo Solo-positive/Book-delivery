@@ -186,6 +186,7 @@ const departmentSelect = $("#department");
 const levelSelect = $("#level");
 const profileForm = $("#profile-form");
 const logoutBtn = $("#logout");
+const logoutHeaderBtn = $("#logout-header");
 
 const catalogTitle = $("#catalog-title");
 const catalogSub = $("#catalog-sub");
@@ -297,6 +298,18 @@ function attachEvents() {
     showAuth();
   });
 
+  // header logout
+  if (logoutHeaderBtn) {
+    logoutHeaderBtn.addEventListener("click", () => {
+      // reuse same logout logic
+      session = null;
+      saveSession(null);
+      cart = [];
+      saveCartToSession();
+      showAuth();
+    });
+  }
+
   searchInput.addEventListener("input", renderBookList);
 
   viewCartBtn.addEventListener("click", () => {
@@ -366,6 +379,7 @@ function login(email, password) {
 
 function showUser(email) {
   userInfoEl.textContent = "Signed in as " + email;
+  if (logoutHeaderBtn) logoutHeaderBtn.classList.remove("hidden");
 }
 
 // UI states
@@ -376,6 +390,7 @@ function showAuth() {
   checkoutSection.classList.add("hidden");
   ordersSection.classList.add("hidden");
   userInfoEl.textContent = "";
+  if (logoutHeaderBtn) logoutHeaderBtn.classList.add("hidden");
 }
 function showProfile() {
   authSection.classList.add("hidden");
